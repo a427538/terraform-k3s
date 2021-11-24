@@ -3,11 +3,11 @@ variable "group_name" {
 }
 variable "machine_type" {
   type    = string
-  default = "e2-medium"
+  default = "e2-small"
 }
 variable "zone" {
   type    = string
-  default = "asia-southeast1-b"
+  default = "us-east1-b"
 }
 variable "project_id" {
   type      = string
@@ -15,11 +15,11 @@ variable "project_id" {
 }
 variable "region" {
   type    = string
-  default = "asia-southeast1"
+  default = "us-east1"
 }
 variable "boot_image" {
   type    = string
-  default = "ubuntu-os-cloud/ubuntu-1804-lts"
+  default = "ubuntu-os-cloud/ubuntu-2004-lts"
 }
 variable "disk_size" {
   type    = number
@@ -41,5 +41,11 @@ variable "ip_cidr_second_range" {
 }
 variable "allowed_ips" {
 	type = list(string)
-	default = []
+	default = ["0.0.0.0/0"]
+}
+variable "credentials" {
+  type = string
+}
+variable "service_account" {
+  type = object({ email = string, scopes = set(string) })
 }

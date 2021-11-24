@@ -3,7 +3,7 @@ resource "google_compute_firewall" "ssh" {
   network   = google_compute_network.vpc.name
   direction = "INGRESS"
   project   = var.project_id
-	source_ranges = var.allowed_ips
+  source_ranges = var.allowed_ips
   allow {
     protocol = "tcp"
     ports    = ["22"]
@@ -17,7 +17,7 @@ resource "google_compute_firewall" "internal" {
   direction     = "INGRESS"
   project       = var.project_id
   source_ranges = [var.ip_cidr_range]
-
+  
   allow {
     protocol = "all"
   }
