@@ -43,9 +43,9 @@ variable "allowed_ips" {
 	type = list(string)
 	default = ["0.0.0.0/0"]
 }
-variable "credentials" {
-  type = string
-}
-variable "service_account" {
-  type = object({ email = string, scopes = set(string) })
-}
+# variable "credentials" {
+#   type = string
+# }
+# variable "service_account" {
+#   type = object({ email = string, scopes = set(string) })
+# }
