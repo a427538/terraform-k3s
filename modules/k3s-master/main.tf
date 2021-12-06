@@ -1,3 +1,7 @@
+locals {
+  network = "${element(split("-", var.subnet), 0)}"
+}
+
 resource "random_string" "token" {
   length           = 108
   special          = true
@@ -9,7 +13,7 @@ resource "random_string" "token" {
 
 
 data "template_file" "master" {
-  template = file("./scripts/master.sh")
+  template = file("../../environments/${var.env}/scripts/master.sh")
   vars = {
     token                  = random_string.token.result
     external_lb_ip_address = google_compute_address.master.address
@@ -22,15 +26,15 @@ data "template_file" "master" {
 }
 
 resource "google_compute_address" "master" {
-  name         = "eip-${var.group_name}"
+  name         = "eip-${var.group_name}-${var.env}"
   network_tier = "PREMIUM"
 }
 
 resource "google_compute_instance" "master" {
   machine_type = var.machine_type
-  name         = "${var.group_name}-master"
+  name         = "${var.group_name}-${var.env}-master"
   zone         = var.zone
-  project      = var.project_id
+  project      = var.project
 
   boot_disk {
     initialize_params {
@@ -39,10 +43,10 @@ resource "google_compute_instance" "master" {
       size  = var.disk_size
     }
   }
-  tags = ["${var.group_name}-master"]
+  tags = ["${var.group_name}-${var.env}-master"]
 
   network_interface {
-    subnetwork = google_compute_subnetwork.vpc_subnetwork.name
+    subnetwork = "${var.subnet}"
     access_config {
       nat_ip = google_compute_address.master.address
     }
