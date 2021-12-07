@@ -20,8 +20,8 @@ resource "google_compute_instance_template" "instance_template" {
   description = "This template is used to create k3s worker instances."
 
   instance_description = "${var.group_name}-${var.env}-worker K3S worker instances"
-  machine_type = var.machine_type
-  region       = var.region  
+  machine_type = "${var.machine_type}"
+  region       = "${var.region}"
   can_ip_forward       = false
 
   scheduling {
@@ -32,11 +32,11 @@ resource "google_compute_instance_template" "instance_template" {
 
   // boot disk
   disk {
-    source_image = var.boot_image
+    source_image = "${var.boot_image}"
     type         = "pd-standard"
     auto_delete  = true
     boot         = true
-    disk_size_gb = var.disk_size  
+    disk_size_gb = "${var.disk_size}"
   }
 
   network_interface {
@@ -49,7 +49,7 @@ resource "google_compute_instance_template" "instance_template" {
   tags = ["${var.group_name}-${var.env}-worker"]
 
   metadata = {
-    "ssh-keys" : var.ssh_key
+    "ssh-keys" : "${var.ssh_key}"
   }
 
   labels = {
