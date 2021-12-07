@@ -76,7 +76,7 @@ resource "google_compute_instance_group_manager" "instance_group_manager" {
     instance_template  = google_compute_instance_template.instance_template.id
   }
   base_instance_name = "${var.group_name}-${var.env}-worker"
-  zone               = var.zone
+  zone               = "${var.zone}"
   target_size        = "1"
 }
 
@@ -84,7 +84,7 @@ resource "google_compute_autoscaler" "default" {
   provider = google-beta
 
   name   = "${var.group_name}-${var.env}-autoscaler"
-  zone   = var.zone
+  zone   = "${var.zone}"
   target = google_compute_instance_group_manager.instance_group_manager.id
 
   autoscaling_policy {
