@@ -55,3 +55,19 @@ module "k3s-master" {
   disk_size = "${var.disk_size}"
   ssh_key = "${var.ssh_key}"
 }
+
+module "k3s-worker" {
+  env     = local.env    
+  source  = "../../modules/k3s-worker"
+  project = "${var.project_id}"
+  region = "${var.region}"
+  subnet  = "${module.vpc.subnet}"
+  group_name = "${var.group_name}"
+  machine_type = "${var.machine_type}"
+  zone = "${var.zone}"
+  boot_image = "${var.boot_image}"
+  disk_size = "${var.disk_size}"
+  ssh_key = "${var.ssh_key}"
+  token = "${module.k3s-master.k3s_master_joining_token.result}"
+  server_address = "${module.k3s-master.external_ip}"
+}

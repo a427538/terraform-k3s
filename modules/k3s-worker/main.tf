@@ -33,7 +33,7 @@ resource "google_compute_instance_template" "instance_template" {
   // boot disk
   disk {
     source_image = "${var.boot_image}"
-    type         = "pd-standard"
+    // type         = "pd-standard"
     auto_delete  = true
     boot         = true
     disk_size_gb = "${var.disk_size}"
@@ -84,7 +84,8 @@ resource "google_compute_autoscaler" "default" {
   provider = google-beta
 
   name   = "${var.group_name}-${var.env}-autoscaler"
-  zone   = "${var.zone}"
+  zone         = var.zone
+  project      = var.project
   target = google_compute_instance_group_manager.instance_group_manager.id
 
   autoscaling_policy {
