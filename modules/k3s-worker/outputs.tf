@@ -12,15 +12,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-output "instance_name" {
-  value = "${google_compute_instance.master.name}"
-}
-
-output "external_ip" {
-  value = "${google_compute_instance.master.network_interface.0.access_config.0.nat_ip}"
-}
-
-output "k3s_master_joining_token" {
-  value = "${random_string.token}"
-}

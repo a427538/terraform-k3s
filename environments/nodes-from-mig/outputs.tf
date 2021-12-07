@@ -37,3 +37,7 @@ output "k3s_master_instance_name" {
 output "k3s_master_external_ip" {
   value = "${module.k3s-master.external_ip}"
 }
+
+output "k3s_master_joining_token" {
+  value = "${module.k3s-master.k3s_master_joining_token}"
+}

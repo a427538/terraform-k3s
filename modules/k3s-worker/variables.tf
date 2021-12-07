@@ -13,14 +13,15 @@
 # limitations under the License.
 
 
-output "instance_name" {
-  value = "${google_compute_instance.master.name}"
-}
-
-output "external_ip" {
-  value = "${google_compute_instance.master.network_interface.0.access_config.0.nat_ip}"
-}
-
-output "k3s_master_joining_token" {
-  value = "${random_string.token}"
-}
+variable "project" {}
+variable "subnet" {}
+variable "env" {}
+variable "group_name" {}
+variable "machine_type" {}
+variable "zone" {}
+variable "boot_image" {}
+variable "disk_size" {}
+variable "ssh_key" {}
+variable "token" {}
+variable "server_address" {}
+variable "region" {}
