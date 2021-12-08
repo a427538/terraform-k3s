@@ -17,6 +17,7 @@ data "template_file" "master" {
   vars = {
     token                  = random_string.token.result
     external_lb_ip_address = google_compute_address.master.address
+    branch = "${var.branch}"
 
     // Uncomment if you're using database
     /* db_username            = google_sql_user.storage.name

@@ -10,3 +10,6 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.21.5+k3s2" sh -s - \
 	--token "${token}" \
 	--tls-san "${external_lb_ip_address}" \
 	--disable traefik
+
+git clone https://github.com/a427538/terraform-k3s.git
+cd terraform-k3s && git checkout "${branch}"

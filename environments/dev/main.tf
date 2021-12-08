@@ -15,6 +15,7 @@
 
 locals {
   env = "dev"
+  branch = basename("${path.module}")
 }
 
 module "vpc" {
@@ -44,7 +45,8 @@ module "firewall" {
 }
 
 module "k3s-master" {
-  env     = local.env    
+  env     = local.env
+  branch  = local.branch    
   source  = "../../modules/k3s-master"
   project = "${var.project_id}"
   subnet  = "${module.vpc.subnet}"
@@ -57,7 +59,8 @@ module "k3s-master" {
 }
 
 module "k3s-worker" {
-  env     = local.env    
+  env     = local.env
+  branch  = local.branch
   source  = "../../modules/k3s-worker"
   project = "${var.project_id}"
   region = "${var.region}"

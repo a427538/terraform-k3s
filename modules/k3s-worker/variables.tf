@@ -25,3 +25,4 @@ variable "ssh_key" {}
 variable "token" {}
 variable "server_address" {}
 variable "region" {}
+variable "branch" {}

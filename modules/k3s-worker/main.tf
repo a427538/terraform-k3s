@@ -7,6 +7,7 @@ data "template_file" "worker" {
   vars = {
     token          = "${var.token}"
     server_address = "${var.server_address}"
+    branch         = "${var.branch}"
   }
 }
 
