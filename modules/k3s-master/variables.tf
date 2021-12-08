@@ -22,4 +22,6 @@ variable "zone" {}
 variable "boot_image" {}
 variable "disk_size" {}
 variable "ssh_key" {}
-variable "branch" {}
+variable "branch" {
+  type = string
+}

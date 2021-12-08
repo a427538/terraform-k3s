@@ -40,8 +40,8 @@ variable "ip_cidr_second_range" {
   type = string
 }
 variable "allowed_ips" {
-	type = list(string)
-	default = ["0.0.0.0/0"]
+  type = list(string)
+  default = ["0.0.0.0/0"]
 }
 # variable "credentials" {
 #   type = string
@@ -49,3 +49,7 @@ variable "allowed_ips" {
 # variable "service_account" {
 #   type = object({ email = string, scopes = set(string) })
 # }
+
+variable "branch" {
+  type = string
+}
