@@ -49,7 +49,3 @@ variable "allowed_ips" {
 # variable "service_account" {
 #   type = object({ email = string, scopes = set(string) })
 # }
-
-variable "branch" {
-  type = string
-}
