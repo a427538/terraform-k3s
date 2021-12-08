@@ -32,6 +32,7 @@ steps:
   - |
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
+        export TF_VAR_branch="$BRANCH_NAME"
         terraform init
       else
         for dir in environments/*/
@@ -57,6 +58,7 @@ steps:
   - | 
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
+        export TF_VAR_branch="$BRANCH_NAME"        
         terraform plan
       else
         for dir in environments/*/
@@ -82,7 +84,8 @@ steps:
   - '-c'
   - | 
       if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME      
+        cd environments/$BRANCH_NAME
+        export TF_VAR_branch="$BRANCH_NAME"    
         terraform apply -auto-approve
       else
         echo "***************************** SKIPPING APPLYING *******************************"

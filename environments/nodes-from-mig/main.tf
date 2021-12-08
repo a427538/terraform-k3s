@@ -15,7 +15,6 @@
 
 locals {
   env = "dev"
-  branch = basename("${path.root}")
 }
 
 module "vpc" {
