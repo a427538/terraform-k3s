@@ -40,8 +40,8 @@ variable "ip_cidr_second_range" {
   type = string
 }
 variable "allowed_ips" {
-	type = list(string)
-	default = ["0.0.0.0/0"]
+  type = list(string)
+  default = ["0.0.0.0/0"]
 }
 # variable "credentials" {
 #   type = string
@@ -55,9 +55,13 @@ variable "branch" {
 }
 
 variable "cloudflare_email" {
-      type = string
+  type = string
 }
 
 variable "cloudflare_api_key" {
-      type = string
+  type = string
+}
+
+variable "cloudflare_zone_id"  {
+  type = string
 }
