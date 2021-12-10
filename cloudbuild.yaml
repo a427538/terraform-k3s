@@ -23,7 +23,7 @@ steps:
       echo "********************************"
       echo "$BRANCH_NAME $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
       echo "********************************"
-  secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']      
+  secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY', 'ANSIBLE_SSH_PUBLIC_KEY']      
 
 - id: 'tf init'
   name: 'hashicorp/terraform:1.0.11'
