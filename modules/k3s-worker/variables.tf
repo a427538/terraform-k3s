@@ -21,7 +21,7 @@ variable "machine_type" {}
 variable "zone" {}
 variable "boot_image" {}
 variable "disk_size" {}
-variable "ssh_key" {}
+variable "ssh_keys" {}
 variable "token" {}
 variable "server_address" {}
 variable "region" {}

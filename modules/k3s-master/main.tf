@@ -54,7 +54,7 @@ resource "google_compute_instance" "master" {
   }
 
   metadata = {
-    "ssh-keys" : var.ssh_key
+    ssh-keys = join("\n", [for key in var.ssh_keys : "${key.user}:${key.publickey}"])
   }
   metadata_startup_script = data.template_file.master.rendered
 }
