@@ -50,7 +50,7 @@ resource "google_compute_instance_template" "instance_template" {
   tags = ["${var.group_name}-${var.env}-worker"]
 
   metadata = {
-    "ssh-keys" : "${var.ssh_key}"
+    ssh-keys = join("\n", [for key in var.ssh_keys : "${key.user}:${key.publickey}"])
   }
 
   labels = {

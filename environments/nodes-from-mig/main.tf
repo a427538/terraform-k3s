@@ -54,7 +54,7 @@ module "k3s-master" {
   zone = "${var.zone}"
   boot_image = "${var.boot_image}"
   disk_size = "${var.disk_size}"
-  ssh_key = "${var.ssh_key}"
+  ssh_keys = "${var.ssh_keys}"
 }
 
 module "k3s-worker" {
@@ -69,7 +69,7 @@ module "k3s-worker" {
   zone = "${var.zone}"
   boot_image = "${var.boot_image}"
   disk_size = "${var.disk_size}"
-  ssh_key = "${var.ssh_key}"
+  ssh_keys = "${var.ssh_keys}"
   token = "${module.k3s-master.k3s_master_joining_token.result}"
   server_address = "${module.k3s-master.external_ip}"
 }
