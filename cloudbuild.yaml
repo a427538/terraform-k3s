@@ -106,7 +106,12 @@ steps:
 
 availableSecrets:
   secretManager:
-  - versionName: projects/$PROJECT_ID/secrets/cloudflare-dns-zone-edit_mobilelife_de/versions/2
+  - versionName: projects/$PROJECT_ID/secrets/cloudflare_api_key/versions/latest
     env: 'CLOUDFLARE_API_KEY'
-  - versionName: projects/$PROJECT_ID/secrets/cloudflare-user_mobilelife_de/versions/1
+  - versionName: projects/$PROJECT_ID/secrets/cloudflare_email/versions/latest
     env: 'CLOUDFLARE_EMAIL'
+  - versionName: projects/$PROJECT_ID/secrets/ansible_ssh_private_key/versions/latest
+    env: 'ANSIBLE_SSH_PRIVATE_KEY'
+  - versionName: projects/$PROJECT_ID/secrets/ansible_ssh_public_key/versions/latest
+    env: 'ANSIBLE_SSH_PUBLIC_KEY'    
+    
