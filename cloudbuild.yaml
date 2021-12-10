@@ -20,9 +20,16 @@ steps:
   args: 
   - '-c'
   - | 
-      echo "***********************"
-      echo "$BRANCH_NAME"
-      echo "***********************"
+      echo "********************************"
+      echo "$BRANCH_NAME $USERNAME $PASSWORD" 
+      echo "********************************"
+  secretEnv: ['USERNAME', 'PASSWORD']
+  availableSecrets:
+    secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/cloudflare-dns-zone-edit_mobilelife_de/versions/1
+      env: 'PASSWORD'
+    - versionName: projects/$PROJECT_ID/secrets/cloudflare-user_mobilelife_de/versions/1
+      env: 'USERNAME'      
 
 - id: 'tf init'
   name: 'hashicorp/terraform:1.0.11'
