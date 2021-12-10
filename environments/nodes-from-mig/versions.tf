@@ -23,6 +23,10 @@ terraform {
     google-beta = {
       source = "hashicorp/google-beta"
       version = "3.90.1"
-    }    
+    }
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+      version = "3.4.0"
+    }   
   }
 }
