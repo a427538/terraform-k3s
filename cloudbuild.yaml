@@ -21,7 +21,7 @@ steps:
   - '-c'
   - | 
       echo "********************************"
-      echo "$BRANCH_NAME $USERNAME $PASSWORD" 
+      echo "$BRANCH_NAME $$USERNAME $$PASSWORD" 
       echo "********************************"
   secretEnv: ['USERNAME', 'PASSWORD']      
 
