@@ -21,9 +21,9 @@ steps:
   - '-c'
   - | 
       echo "********************************"
-      echo "$BRANCH_NAME $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
+      echo "$BRANCH_NAME $$SSH_KEYS $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
       echo "********************************"
-  secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY', 'ANSIBLE_SSH_PUBLIC_KEY']      
+  secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']      
 
 - id: 'tf init'
   name: 'hashicorp/terraform:1.0.11'
@@ -34,6 +34,7 @@ steps:
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
         export TF_VAR_branch="$BRANCH_NAME"
+        export TF_VAR_SSH_KEYS="$$SSH_KEYS"
         export TF_VAR_cloudflare_email="$$CLOUDFLARE_EMAIL"
         export TF_VAR_cloudflare_api_key="$$CLOUDFLARE_API_KEY"
         terraform init
@@ -51,7 +52,7 @@ steps:
           cd ../../
         done
       fi
-  secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY'] 
+  secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY'] 
 
 # [START tf-plan]
 - id: 'tf plan'
@@ -63,6 +64,7 @@ steps:
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
         export TF_VAR_branch="$BRANCH_NAME"
+        export TF_VAR_SSH_KEYS="$$SSH_KEYS"
         export TF_VAR_cloudflare_email="$$CLOUDFLARE_EMAIL"
         export TF_VAR_cloudflare_api_key="$$CLOUDFLARE_API_KEY"        
         terraform plan
@@ -80,7 +82,7 @@ steps:
           cd ../../
         done
       fi
-  secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY'] 
+  secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY'] 
 # [END tf-plan]
 
 # [START tf-apply]
@@ -93,6 +95,7 @@ steps:
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
         export TF_VAR_branch="$BRANCH_NAME"
+        export TF_VAR_SSH_KEYS="$$SSH_KEYS"
         export TF_VAR_cloudflare_email="$$CLOUDFLARE_EMAIL"
         export TF_VAR_cloudflare_api_key="$$CLOUDFLARE_API_KEY"        
         terraform apply -auto-approve
@@ -101,17 +104,18 @@ steps:
         echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
         echo "*******************************************************************************"
       fi
-  secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']       
+  secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']       
 # [END tf-apply]      
 
 availableSecrets:
   secretManager:
+  - versionName: projects/$PROJECT_ID/secrets/ssh_keys/versions/latest
+    env: 'SSH_KEYS'  
   - versionName: projects/$PROJECT_ID/secrets/cloudflare_api_key/versions/latest
     env: 'CLOUDFLARE_API_KEY'
   - versionName: projects/$PROJECT_ID/secrets/cloudflare_email/versions/latest
     env: 'CLOUDFLARE_EMAIL'
   - versionName: projects/$PROJECT_ID/secrets/ansible_ssh_private_key/versions/latest
     env: 'ANSIBLE_SSH_PRIVATE_KEY'
-  - versionName: projects/$PROJECT_ID/secrets/ansible_ssh_public_key/versions/latest
-    env: 'ANSIBLE_SSH_PUBLIC_KEY'    
+
     

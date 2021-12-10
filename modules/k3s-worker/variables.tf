@@ -21,7 +21,14 @@ variable "machine_type" {}
 variable "zone" {}
 variable "boot_image" {}
 variable "disk_size" {}
-variable "ssh_keys" {}
+variable "ssh_keys" {
+  type = list(object({
+    publickey = string
+    user = string
+  }))
+  description = "list of public ssh keys that have access to the VM"
+  default =[]    
+}
 variable "token" {}
 variable "server_address" {}
 variable "region" {}

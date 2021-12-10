@@ -25,7 +25,7 @@ variable "disk_size" {
   type    = number
   default = 50
 }
-variable "ssh_key" {
+variable "ssh_keys" {
   type    = string
   default = ""
 }

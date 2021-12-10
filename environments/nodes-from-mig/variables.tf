@@ -26,17 +26,8 @@ variable "disk_size" {
   default = 50
 }
 variable "ssh_keys" {
-  type = list(object({
-    publickey = string
-    user = string
-  }))
-  description = "list of public ssh keys that have access to the VM"
-  default = [
-      {
-        user = "stich_karl"
-        publickey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAIQzINOqwkX4PBE79EpaVFNHOzjkfTJUFJCYotSb2QmwAqUTrAzLIKOA2PvaE5RX0H7X5W7lhoTUB5C2CVl1qzqLTFBryp4zVpD2i1pjaoNjqr84bpZBZiZK5mkCXYSloJ/siXPVNBHbd0O07XKp35ITir3XcbV2xBV7ng8TekOvhwNrjec9L22q/+ywL9XkOwA7GKew42bPPV1/0A6ytQVSannhmzr43+mGYEgvvvZaQgWpsAYRvyRV586MRgYxZTHOb++yUM+S4kFv7IP+WueXNCWE93xELwbDKdNJH5l6uwMBBCvbI45yIaG7mYlbYR685QWEbYDNb9WUaGIK5 stich_karl"
-      }
-  ]
+  type    = string
+  default = "" 
 }
 variable "total_node" {
   type    = number
