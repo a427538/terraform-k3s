@@ -14,6 +14,32 @@
 
 
 steps:
+
+# Give correct permissions to ssh key
+- name: 'gcr.io/$PROJECT_ID/ansible'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - | 
+      echo "********************************"
+      echo "$BRANCH_NAME $$SSH_KEYS $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
+      echo "********************************"
+  secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']  
+  # args:
+  # - -c
+  # - "chmod 400 id_rsa"
+
+# Decrypt ssh key
+- name: gcr.io/cloud-builders/gcloud
+  args:
+  - kms
+  - decrypt
+  - --ciphertext-file=id_rsa.enc
+  - --plaintext-file=id_rsa
+  - --location=global
+  - --keyring=[KEYRING-NAME]
+  - --key=[KEY-NAME]  
+
 - id: 'branch name'
   name: 'alpine'
   entrypoint: 'sh'  
