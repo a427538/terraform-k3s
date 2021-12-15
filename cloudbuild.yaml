@@ -15,8 +15,8 @@
 
 steps:
 
-# Give correct permissions to ssh key
-- name: 'gcr.io/$PROJECT_ID/ansible'
+- id: 'branch name'
+  name: 'gcr.io/$PROJECT_ID/ansible'
   entrypoint: 'sh'
   args: 
   - '-c'
@@ -24,32 +24,20 @@ steps:
       echo "********************************"
       echo "$BRANCH_NAME $$SSH_KEYS $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
       echo "********************************"
-  secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']  
-  # args:
-  # - -c
-  # - "chmod 400 id_rsa"
+      echo "$$ANSIBLE_SSH_PRIVATE_KEY" > id_rsa
+      chmod 400 id_rsa
+  secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']
 
-# Decrypt ssh key
-- name: gcr.io/cloud-builders/gcloud
+- name: 'gcr.io/$PROJECT_ID/ansible'
+  entrypoint: '/usr/bin/ansible'
   args:
-  - kms
-  - decrypt
-  - --ciphertext-file=id_rsa.enc
-  - --plaintext-file=id_rsa
-  - --location=global
-  - --keyring=[KEYRING-NAME]
-  - --key=[KEY-NAME]  
-
-- id: 'branch name'
-  name: 'alpine'
-  entrypoint: 'sh'  
-  args: 
-  - '-c'
-  - | 
-      echo "********************************"
-      echo "$BRANCH_NAME $$SSH_KEYS $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
-      echo "********************************"
-  secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']      
+  - all
+  - -i
+  - 10.0.0.2
+  - -m
+  - setup
+  - -a
+  - filter=ansible_hostname  
 
 - id: 'tf init'
   name: 'hashicorp/terraform:1.0.11'
