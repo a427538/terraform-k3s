@@ -15,7 +15,7 @@
 
 steps:
 
-- id: 'branch name'
+- id: 'create ansible ssh identity and inventory'
   name: 'gcr.io/$PROJECT_ID/ansible'
   entrypoint: 'sh'
   args: 
@@ -26,6 +26,9 @@ steps:
       echo "********************************"
       echo "$$ANSIBLE_SSH_PRIVATE_KEY" > id_rsa
       chmod 400 id_rsa
+      cat << 'EOF' > hosts
+      10.0.0.2
+      EOF
   secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']
 
 - name: 'gcr.io/$PROJECT_ID/ansible'
@@ -33,7 +36,7 @@ steps:
   args:
   - all
   - -i
-  - 10.0.0.2
+  - hosts
   - -m
   - setup
   - -a
