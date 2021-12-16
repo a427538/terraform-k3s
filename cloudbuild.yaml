@@ -31,6 +31,8 @@ steps:
 - name: 'gcr.io/$PROJECT_ID/ansible'
   entrypoint: '/usr/bin/ansible'
   args:
+  - -e
+  - ANSIBLE_CONFIG=ansible/ansible.cfg
   - -i
   - ansible/inventories/$BRANCH_NAME/hosts
   - -m
