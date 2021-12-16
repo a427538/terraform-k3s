@@ -31,7 +31,7 @@ steps:
       host_key_checking = False
       EOF
       cat << 'EOF' > hosts
-      api.k3s.mobilelife.de ansible_connection=ssh ansible_user=ansible
+      api.k3s.mobilelife.de ansible_connection=ssh ansible_user=ansible ansible_ssh_private_key_file=id_rsa
       EOF
   secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']
 
