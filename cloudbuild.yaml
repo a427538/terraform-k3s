@@ -27,7 +27,7 @@ steps:
       echo "$$ANSIBLE_SSH_PRIVATE_KEY" > id_rsa
       chmod 400 id_rsa
       cat << 'EOF' > hosts
-      10.0.0.2
+      api.k3s.mobilelife.de ansible_connection=ssh ansible_user=ansible
       EOF
   secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']
 
