@@ -26,21 +26,13 @@ steps:
       echo "********************************"
       echo "$$ANSIBLE_SSH_PRIVATE_KEY" > id_rsa
       chmod 400 id_rsa
-      cat << 'EOF' > ansible.cfg
-      [defaults]
-      host_key_checking = False
-      EOF
-      cat << 'EOF' > hosts
-      api.k3s.mobilelife.de ansible_connection=ssh ansible_user=ansible ansible_ssh_private_key_file=id_rsa
-      EOF
-      ls -ltra
   secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']
 
 - name: 'gcr.io/$PROJECT_ID/ansible'
   entrypoint: '/usr/bin/ansible'
   args:
   - -i
-  - hosts
+  - ansible/inventories/$BRANCH_NAME/hosts
   - -m
   - ping
   - all 
