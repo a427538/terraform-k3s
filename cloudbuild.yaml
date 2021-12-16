@@ -26,6 +26,10 @@ steps:
       echo "********************************"
       echo "$$ANSIBLE_SSH_PRIVATE_KEY" > id_rsa
       chmod 400 id_rsa
+      cat << 'EOF' > ansible.cfg
+      [defaults]
+      host_key_checking = False
+      EOF
       cat << 'EOF' > hosts
       api.k3s.mobilelife.de ansible_connection=ssh ansible_user=ansible
       EOF
