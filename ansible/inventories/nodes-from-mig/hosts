@@ -1,1 +1,8 @@
-api.k3s.mobilelife.de ansible_connection=ssh ansible_user=ansible ansible_ssh_private_key_file=id_rsa
+web:
+  hosts:
+    api.k3s.mobilelife.de
+  vars:
+    domain: mobilelife.de
+    ansible_user: ansible
+    ansible_ssh_private_key_file: id_rsa
+    ansible_connection: ssh

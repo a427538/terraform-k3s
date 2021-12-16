@@ -65,7 +65,7 @@ resource "google_compute_firewall" "master" {
 
   allow {
     protocol = "tcp"
-    ports    = ["6443"]
+    ports    = ["80", "6443"]
   }
   target_tags = ["${var.group_name}-${var.env}-master"]
 }

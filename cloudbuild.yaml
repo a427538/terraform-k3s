@@ -29,13 +29,11 @@ steps:
   secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']
 
 - name: 'gcr.io/$PROJECT_ID/ansible'
-  entrypoint: '/usr/bin/ansible'
+  entrypoint: '/usr/bin/ansible-playbook'
   args:
   - -i
   - ansible/inventories/$BRANCH_NAME/hosts
-  - -m
-  - ping
-  - all
+  - ansible/playbooks/nginx.yml
   env:
   - ANSIBLE_CONFIG=ansible/ansible.cfg
 
