@@ -41,6 +41,7 @@ module "firewall" {
   group_name = "${var.group_name}"
   allowed_ips = "${var.allowed_ips}"
   ip_cidr_range = "${var.ip_cidr_range}"
+  nat_router = "${module.k3s-master.google_compute_instance.master}"
 }
 
 module "k3s-master" {

@@ -41,14 +41,3 @@ module "vpc" {
     ]
   }
 }
-
-# Add default route for internal VMs with no external IP address
-resource "google_compute_route" "default" {
-  name        = "default"
-  depends_on = [google_compute_instance.master]
-  tags        = [ "no-ip" ]
-  dest_range  = "0.0.0.0/0"
-  network     = google_compute_network.vpc.name
-  next_hop_ip = google_compute_instance.master.network_interface[0].network_ip
-  priority    = 800
-}

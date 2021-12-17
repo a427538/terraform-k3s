@@ -101,3 +101,13 @@ resource "google_compute_firewall" "ingress" {
   target_tags = ["${var.group_name}-${var.env}-worker"]
 }
 
+# Add default route for internal VMs with no external IP address
+resource "google_compute_route" "default" {
+  name        = "default"
+  depends_on = [ var.nat_router]
+  tags        = [ "no-ip" ]
+  dest_range  = "0.0.0.0/0"
+  network       = "${local.network}"
+  next_hop_ip = var.nat_router.network_interface[0].network_ip
+  priority    = 800
+}
