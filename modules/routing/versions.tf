@@ -13,18 +13,6 @@
 # limitations under the License.
 
 
-output "instance_name" {
-  value = "${google_compute_instance.master.name}"
-}
-
-output "internal_ip" {
-  value = "${google_compute_instance.master.network_interface.0.network_ip}"
-}
-
-output "external_ip" {
-  value = "${google_compute_instance.master.network_interface.0.access_config.0.nat_ip}"
-}
-
-output "k3s_master_joining_token" {
-  value = "${random_string.token}"
+terraform {
+  required_version = "~> 1.0.0"
 }

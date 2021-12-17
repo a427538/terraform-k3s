@@ -65,5 +65,3 @@ variable "cloudflare_api_key" {
 variable "cloudflare_zone_id"  {
   type = string
 }
-
-variable "nat_router" {}

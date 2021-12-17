@@ -41,7 +41,6 @@ module "firewall" {
   group_name = "${var.group_name}"
   allowed_ips = "${var.allowed_ips}"
   ip_cidr_range = "${var.ip_cidr_range}"
-  nat_router = "${module.k3s-master.google_compute_instance.master}"
 }
 
 module "k3s-master" {
@@ -56,6 +55,11 @@ module "k3s-master" {
   boot_image = "${var.boot_image}"
   disk_size = "${var.disk_size}"
   ssh_keys = jsondecode(var.ssh_keys)
+}
+
+module "routing" {
+  source = "../../modules/routing"
+  next_hop_ip = [ module.k3s-master.internal_ip ] 
 }
 
 module "k3s-worker" {
