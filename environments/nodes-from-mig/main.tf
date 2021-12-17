@@ -57,6 +57,11 @@ module "k3s-master" {
   ssh_keys = jsondecode(var.ssh_keys)
 }
 
+module "routing" {
+  source = "../../modules/routing"
+  next_hop_ip = [ module.k3s-master.internal_ip ] 
+}
+
 module "k3s-worker" {
   env     = local.env
   branch  = "${var.branch}"

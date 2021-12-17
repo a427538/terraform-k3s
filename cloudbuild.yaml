@@ -110,14 +110,14 @@ steps:
   secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']       
 # [END tf-apply]      
 
-- name: 'gcr.io/$PROJECT_ID/ansible'
-  entrypoint: '/usr/bin/ansible-playbook'
-  args:
-  - -i
-  - ansible/inventories/dev/hosts
-  - ansible/site.yml
-  env:
-  - ANSIBLE_CONFIG=ansible/ansible.cfg
+# - name: 'gcr.io/$PROJECT_ID/ansible'
+#   entrypoint: '/usr/bin/ansible-playbook'
+#   args:
+#   - -i
+#   - ansible/inventories/dev/hosts
+#   - ansible/site.yml
+#   env:
+#   - ANSIBLE_CONFIG=ansible/ansible.cfg
   
 availableSecrets:
   secretManager:

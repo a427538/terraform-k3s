@@ -34,6 +34,10 @@ output "k3s_master_instance_name" {
   value = "${module.k3s-master.instance_name}"
 }
 
+output "k3s_master_internal_ip" {
+  value = "${module.k3s-master.internal_ip}"
+}
+
 output "k3s_master_external_ip" {
   value = "${module.k3s-master.external_ip}"
 }
