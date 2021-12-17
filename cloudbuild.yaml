@@ -114,7 +114,7 @@ steps:
   entrypoint: '/usr/bin/ansible-playbook'
   args:
   - -i
-  - ansible/inventories/$BRANCH_NAME/hosts
+  - ansible/inventories/dev/hosts
   - ansible/site.yml
   env:
   - ANSIBLE_CONFIG=ansible/ansible.cfg
