@@ -16,6 +16,8 @@ steps:
         if [ -d "environments/$BRANCH_NAME/" ]; then
           cd environments/$BRANCH_NAME
           export TF_VAR_branch="$BRANCH_NAME"
+          export TF_VAR_cloudflare_email="$$CLOUDFLARE_EMAIL"
+          export TF_VAR_cloudflare_api_key="$$CLOUDFLARE_API_KEY"          
           terraform init
         else
           for dir in environments/*/
@@ -42,6 +44,8 @@ steps:
         if [ -d "environments/$BRANCH_NAME/" ]; then
           cd environments/$BRANCH_NAME
           export TF_VAR_branch="$BRANCH_NAME"
+          export TF_VAR_cloudflare_email="$$CLOUDFLARE_EMAIL"
+          export TF_VAR_cloudflare_api_key="$$CLOUDFLARE_API_KEY"          
           terraform destroy -auto-approve
         else
           for dir in environments/*/
