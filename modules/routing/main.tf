@@ -1,4 +1,9 @@
 # Add default route for internal VMs with no external IP address
+
+locals {
+  network = "${element(split("-", var.subnet), 0)}"
+}
+
 resource "google_compute_route" "default" {
   name        = "default"
   # depends_on = [ var.next_hop_ip ]

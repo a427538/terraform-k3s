@@ -59,6 +59,7 @@ module "k3s-master" {
 
 module "routing" {
   source = "../../modules/routing"
+  subnet  = "${module.vpc.subnet}"
   next_hop_ip = [ module.k3s-master.internal_ip ] 
 }
 
