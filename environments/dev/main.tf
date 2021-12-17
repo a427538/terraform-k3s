@@ -45,7 +45,7 @@ module "firewall" {
 
 module "k3s-master" {
   env     = local.env
-  branch  = "${var.branch}"    
+  branch  = "${var.branch}"
   source  = "../../modules/k3s-master"
   project = "${var.project_id}"
   subnet  = "${module.vpc.subnet}"

@@ -27,7 +27,7 @@ variable "disk_size" {
 }
 variable "ssh_keys" {
   type    = string
-  default = ""
+  default = "" 
 }
 variable "total_node" {
   type    = number
@@ -51,5 +51,17 @@ variable "allowed_ips" {
 # }
 
 variable "branch" {
+  type = string
+}
+
+variable "cloudflare_email" {
+  type = string
+}
+
+variable "cloudflare_api_key" {
+  type = string
+}
+
+variable "cloudflare_zone_id"  {
   type = string
 }
