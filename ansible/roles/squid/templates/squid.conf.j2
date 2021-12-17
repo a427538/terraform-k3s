@@ -1,0 +1,141 @@
+# Managed by ansible!
+# Initial config from squid-3.3.8-12.el7_0.x86_64 
+# Comment out RFC1918 addresses and only allow the internal_net variable. 
+#
+# Recommended minimum configuration:
+#
+{% if squid_cache_local %}
+acl manager url_regex -i ^cache_object:// /squid-internal-mgr/
+{% endif %}
+
+# Example rule allowing access from your local networks.
+# Adapt to list your (internal) IP networks from where browsing
+# should be allowed
+{% if internal_net %}
+acl localnet src {{ squid_internal_net }} # internal ethernet network
+{% else %}
+acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
+{% endif %}
+{% if squid_extra_internal_net is defined %}
+{% for item in squid_extra_internal_net %}
+acl localnet src {{ item }} # extra network from ansible squid_extra_internal_net
+{% endfor %}
+{% endif %}
+
+#acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
+#acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
+acl localnet src fc00::/7       # RFC 4193 local private network range
+acl localnet src fe80::/10      # RFC 4291 link-local (directly plugged) machines
+
+acl SSL_ports port 443
+acl Safe_ports port 80		# http
+acl Safe_ports port 21		# ftp
+acl Safe_ports port 443		# https
+acl Safe_ports port 70		# gopher
+acl Safe_ports port 210		# wais
+acl Safe_ports port 1025-65535	# unregistered ports
+acl Safe_ports port 280		# http-mgmt
+acl Safe_ports port 488		# gss-http
+acl Safe_ports port 591		# filemaker
+acl Safe_ports port 777		# multiling http
+acl CONNECT method CONNECT
+
+# Add optional acls for outgoing traffic restictions
+{% if squid_allowed_outgoing_domains is defined %}
+{% for outgoing_domain in squid_allowed_outgoing_domains %}
+acl outgoing_domains dstdomain {{ outgoing_domain }}
+{% endfor %}
+{% endif %}
+{% if squid_allowed_outgoing_ips is defined %}
+{% for outgoing_ip in squid_allowed_outgoing_ips %}
+acl outgoing_ips dst {{ outgoing_ip }}
+{% endfor %}
+{% endif %}
+
+#
+# Recommended minimum Access Permission configuration:
+#
+# Deny requests to certain unsafe ports
+http_access deny !Safe_ports
+
+# Deny CONNECT to other than secure SSL ports
+http_access deny CONNECT !SSL_ports
+
+# Only allow cachemgr access from localhost
+http_access allow localhost manager
+http_access deny manager
+
+# We strongly recommend the following be uncommented to protect innocent
+# web applications running on the proxy server who think the only
+# one who can access services on "localhost" is a local user
+#http_access deny to_localhost
+
+#
+# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+#
+
+# Example rule allowing access from your local networks.
+# Adapt localnet in the ACL section to list your (internal) IP networks
+# from where browsing should be allowed
+{% if internal_net %}
+{% if squid_limit_outgoing_traffic %}
+{% if squid_allowed_outgoing_domains is defined %}
+http_access allow localnet outgoing_domains
+{% endif %}
+{% if squid_allowed_outgoing_ips is defined %}
+http_access allow localnet outgoing_ips
+{% endif %}
+{% else %}
+http_access allow localnet
+{% endif %}
+{% endif %}
+
+http_access allow localhost
+
+# And finally deny all other access to this proxy
+http_access deny all
+
+# Squid normally listens to port 3128
+http_port 3128
+
+# Uncomment and adjust the following to add a disk cache directory.
+#cache_dir ufs /var/spool/squid 100 16 256
+
+# Leave coredumps in the first cache dir
+coredump_dir {{ squid_default_cache_dir }}
+
+#
+# Add any of your own refresh_pattern entries above these. Like:
+# refresh_pattern ^ftp:           1440    20%     10080
+{% for pattern in refresh_patterns %}
+{{ pattern }}
+{% endfor %}
+
+### Additions
+
+{% if squid_extra_cache_dir %}
+cache_dir ufs {{ squid_cache_dir2["path"] }} {{ squid_cache_dir2["MB"] }} {{ squid_cache_dir2["L1"] }} {{ squid_cache_dir2["L2"] }}
+{% endif %}
+
+maximum_object_size {{ maximum_object_size_kb }} KB
+
+{% if squid_block_yum_metadata %}
+acl yummeta urlpath_regex \.xml$
+acl yummeta urlpath_regex xml\.gz$
+acl yummeta urlpath_regex sqlite\.bz2$
+cache deny yummeta
+{% endif %}
+
+{% if squid_allow_snmp_local %}
+acl snmplocal snmp_community public
+snmp_access allow snmplocal localhost
+snmp_access deny all
+snmp_port 161
+{% endif %}
+
+{% if squid_extra_settings is defined %}
+# Extra Slurm Settings
+{% for squid_xsetting in squid_extra_settings %}
+{{ squid_xsetting }}
+{% endfor %}
+{% endif %}

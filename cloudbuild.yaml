@@ -115,7 +115,7 @@ steps:
   args:
   - -i
   - ansible/inventories/$BRANCH_NAME/hosts
-  - ansible/playbooks/nginx.yml
+  - ansible/site.yml
   env:
   - ANSIBLE_CONFIG=ansible/ansible.cfg
   
