@@ -1,0 +1,73 @@
+steps:
+  - name: alpine
+    args:
+      - '-c'
+      - |
+        echo "***********************"
+        echo "$BRANCH_NAME"
+        echo "***********************"
+    id: branch name
+    entrypoint: sh
+
+  - name: 'hashicorp/terraform:1.0.11'
+    args:
+      - '-c'
+      - |
+        if [ -d "environments/$BRANCH_NAME/" ]; then
+          cd environments/$BRANCH_NAME
+          export TF_VAR_branch="$BRANCH_NAME"
+          terraform init
+        else
+          for dir in environments/*/
+          do 
+            cd ${dir}   
+            env=${dir%*/}
+            env=${env#*/}
+            echo ""
+            echo "*************** TERRAFORM INIT ******************"
+            echo "******* At environment: ${env} ********"
+            echo "*************************************************"
+            terraform init || exit 1
+            cd ../../
+          done
+        fi
+    id: tf init
+    entrypoint: sh
+    secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']
+
+  - name: 'hashicorp/terraform:1.0.11'
+    args:
+      - '-c'
+      - |
+        if [ -d "environments/$BRANCH_NAME/" ]; then
+          cd environments/$BRANCH_NAME
+          export TF_VAR_branch="$BRANCH_NAME"
+          terraform destroy -auto-approve
+        else
+          for dir in environments/*/
+          do 
+            cd ${dir}   
+            env=${dir%*/}
+            env=${env#*/}  
+            echo ""
+            echo "*************** TERRAFOM PLAN ******************"
+            echo "******* At environment: ${env} ********"
+            echo "*************************************************"
+            terraform destroy -auto-approve || exit 1
+            cd ../../
+          done
+        fi 
+    id: tf destroy
+    entrypoint: sh
+    secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/$PROJECT_ID/secrets/cloudflare_email/versions/latest
+    env: 'CLOUDFLARE_EMAIL'
+  - versionName: projects/$PROJECT_ID/secrets/cloudflare_api_key/versions/latest
+    env: 'CLOUDFLARE_API_KEY'
+  # - versionName: projects/$PROJECT_ID/secrets/ssh_keys/versions/latest
+  #   env: 'SSH_KEYS'  
+  # - versionName: projects/$PROJECT_ID/secrets/ansible_ssh_private_key/versions/latest
+  #   env: 'ANSIBLE_SSH_PRIVATE_KEY'    
