@@ -104,10 +104,10 @@ resource "google_compute_firewall" "ingress" {
 # Add default route for internal VMs with no external IP address
 resource "google_compute_route" "default" {
   name        = "default"
-  depends_on = [ var.nat_router]
+  depends_on = [ module.k3s-master.google_compute_instance.master ]
   tags        = [ "no-ip" ]
   dest_range  = "0.0.0.0/0"
   network       = "${local.network}"
-  next_hop_ip = var.nat_router.network_interface[0].network_ip
+  next_hop_ip = module.k3s-master.google_compute_instance.master.network_interface[0].network_ip
   priority    = 800
 }

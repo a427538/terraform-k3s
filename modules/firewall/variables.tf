@@ -18,4 +18,3 @@ variable "allowed_ips" {}
 variable "ip_cidr_range" {}
 variable "group_name" {}
 variable "env" {}
-variable "nat_router" {}
