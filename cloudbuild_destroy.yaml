@@ -16,6 +16,7 @@ steps:
         if [ -d "environments/$BRANCH_NAME/" ]; then
           cd environments/$BRANCH_NAME
           export TF_VAR_branch="$BRANCH_NAME"
+          export TF_VAR_ssh_keys="$$SSH_KEYS"          
           export TF_VAR_cloudflare_email="$$CLOUDFLARE_EMAIL"
           export TF_VAR_cloudflare_api_key="$$CLOUDFLARE_API_KEY"          
           terraform init
@@ -35,7 +36,7 @@ steps:
         fi
     id: tf init
     entrypoint: sh
-    secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']
+    secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']
 
   - name: 'hashicorp/terraform:1.0.11'
     args:
@@ -44,6 +45,7 @@ steps:
         if [ -d "environments/$BRANCH_NAME/" ]; then
           cd environments/$BRANCH_NAME
           export TF_VAR_branch="$BRANCH_NAME"
+          export TF_VAR_ssh_keys="$$SSH_KEYS"
           export TF_VAR_cloudflare_email="$$CLOUDFLARE_EMAIL"
           export TF_VAR_cloudflare_api_key="$$CLOUDFLARE_API_KEY"          
           terraform destroy -auto-approve
@@ -63,7 +65,7 @@ steps:
         fi 
     id: tf destroy
     entrypoint: sh
-    secretEnv: ['CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']
+    secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']
 
 availableSecrets:
   secretManager:
@@ -71,7 +73,7 @@ availableSecrets:
     env: 'CLOUDFLARE_EMAIL'
   - versionName: projects/$PROJECT_ID/secrets/cloudflare_api_key/versions/latest
     env: 'CLOUDFLARE_API_KEY'
-  # - versionName: projects/$PROJECT_ID/secrets/ssh_keys/versions/latest
-  #   env: 'SSH_KEYS'  
+  - versionName: projects/$PROJECT_ID/secrets/ssh_keys/versions/latest
+    env: 'SSH_KEYS'  
   # - versionName: projects/$PROJECT_ID/secrets/ansible_ssh_private_key/versions/latest
   #   env: 'ANSIBLE_SSH_PRIVATE_KEY'    
