@@ -23,7 +23,7 @@ resource "google_compute_instance_template" "instance_template" {
   instance_description = "${var.group_name}-${var.env}-worker K3S worker instances"
   machine_type = "${var.machine_type}"
   region       = "${var.region}"
-  can_ip_forward       = false
+  can_ip_forward       = true
 
   scheduling {
     preemptible = true
@@ -42,12 +42,12 @@ resource "google_compute_instance_template" "instance_template" {
 
   network_interface {
     subnetwork = "${var.subnet}"
-    access_config {
-      network_tier = "PREMIUM"
-    }
+    # access_config {
+    #   network_tier = "PREMIUM"
+    # }
   }
 
-  tags = ["${var.group_name}-${var.env}-worker"]
+  tags = ["${var.group_name}-${var.env}-worker", "no-ip"]
 
   metadata = {
     ssh-keys = join("\n", [for key in var.ssh_keys : "${key.user}:${key.publickey}"])

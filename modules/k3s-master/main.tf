@@ -36,6 +36,7 @@ resource "google_compute_instance" "master" {
   name         = "${var.group_name}-${var.env}-master"
   zone         = var.zone
   project      = var.project
+  can_ip_forward = true
 
   boot_disk {
     initialize_params {
@@ -44,7 +45,7 @@ resource "google_compute_instance" "master" {
       size  = var.disk_size
     }
   }
-  tags = ["${var.group_name}-${var.env}-master"]
+  tags = ["${var.group_name}-${var.env}-master", "no-ip"]
 
   network_interface {
     subnetwork = "${var.subnet}"
