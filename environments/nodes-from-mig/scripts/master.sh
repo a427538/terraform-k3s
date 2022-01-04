@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 apt-get update
-apt-get install --yes vim mc aptitude python software-properties-common  
+apt-get install --yes vim mc aptitude python software-properties-common net-tools 
 apt-add-repository --yes --update ppa:ansible/ansible  
 apt-get install --yes ansible 
 
@@ -17,7 +17,7 @@ sysctl -w net.ipv4.ip_forward=1
 # Make forwarding persistent.
 sed -i= 's/^[# ]*net.ipv4.ip_forward=[[:digit:]]/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 
-iptables -t nat -A POSTROUTING -o ens4 -j MASQUERADE 
+iptables -t nat -A POSTROUTING -o ens4 -j MASQUERADE
 
-# git clone https://github.com/a427538/terraform-k3s.git
-# cd terraform-k3s && git checkout "${branch}"
+git clone https://github.com/a427538/terraform-k3s.git
+cd terraform-k3s && git checkout nodes-from-mig # "${branch}"
