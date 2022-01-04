@@ -118,6 +118,14 @@ steps:
 #   - ansible/site.yml
 #   env:
 #   - ANSIBLE_CONFIG=ansible/ansible.cfg
+
+# Deploy configurations
+- id: 'ansible-playbook site.yaml'
+  name: 'gcr.io/$PROJECT_ID/ansible'
+  args:
+  - -i
+  - ansible/inventories/dynamic_dns_inventory.sh
+  - ansible/site.yaml
   
 availableSecrets:
   secretManager:
