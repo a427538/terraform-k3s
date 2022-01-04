@@ -19,5 +19,5 @@ sed -i= 's/^[# ]*net.ipv4.ip_forward=[[:digit:]]/net.ipv4.ip_forward=1/g' /etc/s
 
 iptables -t nat -A POSTROUTING -o ens4 -j MASQUERADE 
 
-# git clone https://github.com/a427538/terraform-k3s.git
-# cd terraform-k3s && git checkout "${branch}"
+git clone https://github.com/a427538/terraform-k3s.git
+cd terraform-k3s && git checkout "${branch}"
