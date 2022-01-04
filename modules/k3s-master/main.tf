@@ -45,7 +45,7 @@ resource "google_compute_instance" "master" {
       size  = var.disk_size
     }
   }
-  tags = ["${var.group_name}-${var.env}-master", "no-ip"]
+  tags = ["${var.group_name}-${var.env}-master"]
 
   network_interface {
     subnetwork = "${var.subnet}"
