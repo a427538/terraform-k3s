@@ -1,4 +1,5 @@
 ---
 # file: site.yml
+- import_playbook: playbooks/update.yml
 - import_playbook: playbooks/nginx.yml
 - import_playbook: playbooks/squid.yml
