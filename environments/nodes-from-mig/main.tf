@@ -63,6 +63,26 @@ module "routing" {
   next_hop_ip = "${module.k3s-master.internal_ip}"
 }
 
+resource "google_pubsub_topic" "mig-instance-starting" {
+  name = "mig-instance-starting"
+
+  labels = {
+    mig-instance = "starting"
+  }
+
+  message_retention_duration = "86600s"
+}
+
+resource "google_pubsub_topic" "mig-instance-stopping" {
+  name = "mig-instance-stopping"
+
+  labels = {
+    mig-instance = "stopping"
+  }
+
+  message_retention_duration = "86600s"
+}
+
 resource "google_logging_project_sink" "mig-instance-starting" {
   name = "pubsub-mig-instance-starting"
 

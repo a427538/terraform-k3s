@@ -13,6 +13,12 @@ $ gcloud builds submit .
 ```
 
 ## Cloud Logging Filter for Managed Instance Group VMs
+
+Note:
+You must have granted the "Logs Configuration Writer" IAM role (roles/logging.configWriter) to the credentials used with terraform.
+
+[Zugriffssteuerung mit IAM](https://cloud.google.com/logging/docs/access-control)
+
 ```
 resource.type="gce_instance"
 protoPayload.methodName="v1.compute.instances.insert"
