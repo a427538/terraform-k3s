@@ -12,6 +12,17 @@ $ cd cloud-builders-community/ansible
 $ gcloud builds submit .
 ```
 
+## Cloud Logging Filter for Managed Instance Group VMs
+```
+resource.type="gce_instance"
+protoPayload.methodName="v1.compute.instances.insert"
+protoPayload.response.status="RUNNING"
+
+resource.type="gce_instance"
+protoPayload.methodName="v1.compute.instances.delete"
+protoPayload.response.status="RUNNING"
+```
+
 ## Configuring your **dev** environment
 
 Just for demostration, this step will:
