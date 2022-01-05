@@ -1,12 +1,12 @@
 - name: do an apt upgrade
-  apt:
-    name: "*"
-    state: latest
-    update_cache: yes
-    force_apt_get: True
-    cache_valid_time: 3600
-  become: yes
-  register: apt_action
-  retries: 100
-  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Ubuntu'
+    apt:
+      name: "*"
+      state: latest
+      update_cache: yes
+      force_apt_get: True
+      cache_valid_time: 3600
+    become: yes
+    register: apt_action
+    retries: 100
+    until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Ubuntu'
