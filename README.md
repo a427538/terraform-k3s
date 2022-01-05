@@ -56,3 +56,6 @@ terraform plan
 terraform apply
 terraform destroy
 ```
+
+## HAProxy dynamic configuration
+[Programmatic HAProxy Configuration Using the Data Plane API](https://www.haproxy.com/blog/programmatic-haproxy-configuration-using-the-data-plane-api/)
