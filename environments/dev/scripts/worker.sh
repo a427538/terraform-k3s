@@ -1,7 +1,7 @@
 #! /bin/bash
 
 apt-get update  
-apt-get install --yes vim mc aptitude python software-properties-common net-tools
+apt-get install --yes vim mc aptitude python software-properties-common net-tools  
 apt-add-repository --yes --update ppa:ansible/ansible  
 apt-get install --yes ansible  
 

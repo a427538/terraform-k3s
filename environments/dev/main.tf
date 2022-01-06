@@ -59,7 +59,42 @@ module "k3s-master" {
 
 module "routing" {
   source = "../../modules/routing"
-  next_hop_ip = [ module.k3s-master.internal_ip ] 
+  subnet  = "${module.vpc.subnet}"
+  next_hop_ip = "${module.k3s-master.internal_ip}"
+}
+
+resource "google_pubsub_topic" "mig-instance-starting" {
+  name = "mig-instance-starting"
+}
+
+resource "google_pubsub_topic" "mig-instance-stopping" {
+  name = "mig-instance-stopping"
+}
+
+resource "google_logging_project_sink" "mig-instance-starting" {
+  name = "pubsub-mig-instance-starting"
+
+  # Can export to pubsub, cloud storage, or bigquery
+  destination = "pubsub.googleapis.com/projects/${var.project_id}/topics/mig-instance-starting"
+
+  # Log all WARN or higher severity messages relating to instances
+  filter = "resource.type = gce_instance AND protoPayload.methodName = v1.compute.instances.insert AND protoPayload.response.status = RUNNING"
+
+  # Use a unique writer (creates a unique service account used for writing)
+  unique_writer_identity = true
+}
+
+resource "google_logging_project_sink" "mig-instance-stopping" {
+  name = "pubsub-mig-instance-stopping"
+
+  # Can export to pubsub, cloud storage, or bigquery
+  destination = "pubsub.googleapis.com/projects/${var.project_id}/topics/mig-instance-stopping"
+
+  # Log all WARN or higher severity messages relating to instances
+  filter = "resource.type = gce_instance AND protoPayload.methodName = v1.compute.instances.delete AND protoPayload.response.status = RUNNING"
+
+  # Use a unique writer (creates a unique service account used for writing)
+  unique_writer_identity = true
 }
 
 module "k3s-worker" {
