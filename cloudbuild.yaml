@@ -1,20 +1,5 @@
 steps:
 
-- id: 'create ansible ssh identity and inventory'
-  name: 'gcr.io/$PROJECT_ID/ansible'
-  entrypoint: 'sh'
-  args: 
-  - '-c'
-  - | 
-      echo "***********************************************************************"
-      echo "Branch: $BRANCH_NAME Environment: ${_ENV}"
-      echo "public SSH-Keys:"
-      echo "$$SSH_KEYS"
-      echo "***********************************************************************"
-      echo "$$ANSIBLE_SSH_PRIVATE_KEY" > id_rsa
-      chmod 400 id_rsa
-  secretEnv: ['SSH_KEYS', 'ANSIBLE_SSH_PRIVATE_KEY']
-
 - id: 'tf init'
   name: 'hashicorp/terraform:1.0.11'
   entrypoint: 'sh'
@@ -105,17 +90,6 @@ steps:
       fi
   secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY']       
 # [END tf-apply]      
-
-# Deploy configurations
-- id: 'ansible-playbook site.yml'
-  name: 'gcr.io/$PROJECT_ID/ansible'
-  entrypoint: '/usr/bin/ansible-playbook'
-  args:
-  - -i
-  - ansible/inventories/$BRANCH_NAME/hosts
-  - ansible/site.yml
-  env:
-  - ANSIBLE_CONFIG=ansible/ansible.cfg  
   
 availableSecrets:
   secretManager:
@@ -125,7 +99,3 @@ availableSecrets:
     env: 'CLOUDFLARE_API_KEY'
   - versionName: projects/$PROJECT_ID/secrets/cloudflare_email/versions/latest
     env: 'CLOUDFLARE_EMAIL'
-  - versionName: projects/$PROJECT_ID/secrets/ansible_ssh_private_key/versions/latest
-    env: 'ANSIBLE_SSH_PRIVATE_KEY'
-
-    
