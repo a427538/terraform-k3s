@@ -21,9 +21,9 @@ steps:
   args: 
   - '-c'
   - | 
-      echo "********************************"
-      echo "$BRANCH_NAME $$SSH_KEYS $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
-      echo "********************************"
+      echo "***********************************************************************"
+      echo "$BRANCH_NAME ${_ENV} $$SSH_KEYS $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
+      echo "***********************************************************************"
       echo "$$ANSIBLE_SSH_PRIVATE_KEY" > id_rsa
       chmod 400 id_rsa
   secretEnv: ['SSH_KEYS', 'CLOUDFLARE_EMAIL', 'CLOUDFLARE_API_KEY', 'ANSIBLE_SSH_PRIVATE_KEY']
@@ -34,8 +34,11 @@ steps:
   args: 
   - '-c'
   - |
-      if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME
+      echo "***********************************************************************"
+      echo "$BRANCH_NAME ${_ENV} $$SSH_KEYS $$CLOUDFLARE_EMAIL $$CLOUDFLARE_API_KEY" 
+      echo "***********************************************************************"  
+      if [ -d "environments/${_ENV}/" ]; then
+        cd environments/${_ENV}
         export TF_VAR_branch="$BRANCH_NAME"
         export TF_VAR_ssh_keys="$$SSH_KEYS"
         export TF_VAR_cloudflare_email="$$CLOUDFLARE_EMAIL"
