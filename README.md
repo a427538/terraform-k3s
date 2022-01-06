@@ -59,3 +59,4 @@ terraform destroy
 
 ## HAProxy dynamic configuration
 [Programmatic HAProxy Configuration Using the Data Plane API](https://www.haproxy.com/blog/programmatic-haproxy-configuration-using-the-data-plane-api/)
+[Run the HAProxy Kubernetes Ingress Controller Outside of Your Kubernetes Cluster](https://www.haproxy.com/blog/run-the-haproxy-kubernetes-ingress-controller-outside-of-your-kubernetes-cluster/)
