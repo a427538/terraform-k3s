@@ -111,5 +111,5 @@ module "k3s-worker" {
   disk_size = "${var.disk_size}"
   ssh_keys = jsondecode(var.ssh_keys)
   token = "${module.k3s-master.k3s_master_joining_token.result}"
-  server_address = "${module.k3s-master.external_ip}"
+  server_address = "${module.k3s-master.internal_ip}"
 }
