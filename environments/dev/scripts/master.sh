@@ -6,7 +6,7 @@ apt-add-repository --yes --update ppa:ansible/ansible
 apt-get install --yes ansible 
 
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.21.5+k3s2" sh -s - \
-	--flannel-backend=none \
+	--flannel-backend none \
     --disable-network-policy \
     --write-kubeconfig-mode 644 \
 	--token "${token}" \
