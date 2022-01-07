@@ -17,10 +17,11 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.22.5+k3s1" sh -s - \
     --write-kubeconfig-mode 644 \
 	--token "${token}" \
 	--tls-san "${external_lb_ip_address}" \
-    --cluster-cidr 10.42.0.0/16 \
-    --flannel-backend none \
-    --disable-network-policy \      
-	--disable traefik 
+    --disable traefik
+    # --cluster-cidr 10.42.0.0/16 \
+    # --flannel-backend none \
+    # --disable-network-policy \      
+	 
 
 # # Enable ip forwarding and nat
 # sysctl -w net.ipv4.ip_forward=1
