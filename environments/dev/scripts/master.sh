@@ -8,15 +8,19 @@ apt-get install --yes ansible
 git clone https://github.com/a427538/terraform-k3s.git
 cd terraform-k3s && git checkout "${branch}"
 
+ansible-playbook \
+--connection=local \ 
+--inventory 127.0.0.1, \
+--limit 127.0.0.1 ansible/playbooks/squid.yml -i ansible/inventories/"${_ENV}"/hosts
+
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.22.5+k3s1" sh -s - \
     --write-kubeconfig-mode 644 \
 	--token "${token}" \
-	--tls-san "${external_lb_ip_address}" \  
-	--disable traefik
-    # --cluster-cidr 10.42.0.0/16
-    # --flannel-backend none \
-    # --disable-network-policy \  
-
+	--tls-san "${external_lb_ip_address}" \
+    --cluster-cidr 10.42.0.0/16 \
+    --flannel-backend none \
+    --disable-network-policy \      
+	--disable traefik 
 
 # # Enable ip forwarding and nat
 # sysctl -w net.ipv4.ip_forward=1
