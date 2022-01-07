@@ -9,9 +9,9 @@ git clone https://github.com/a427538/terraform-k3s.git
 cd terraform-k3s && git checkout "${branch}"
 
 ansible-playbook \
---connection=local \ 
---inventory 127.0.0.1, \
---limit 127.0.0.1 ansible/playbooks/squid.yml -i ansible/inventories/"${env}"/hosts
+--connection=local \
+-i ansible/inventories/"${env}"/hosts \
+ansible/playbooks/squid.yml 
 
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.22.5+k3s1" sh -s - \
     --write-kubeconfig-mode 644 \

@@ -9,4 +9,4 @@ web:
 
 proxy:
   hosts:
-    api.k3s.mobilelife.de
+    k3s-dev-master

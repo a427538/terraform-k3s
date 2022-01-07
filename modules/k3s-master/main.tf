@@ -19,6 +19,7 @@ data "template_file" "master" {
     external_lb_ip_address = google_compute_address.master.address
     branch                 = "${var.branch}"
     env                    = "${var.env}"
+    hostname               = "${var.group_name}-${var.env}-master"
 
     // Uncomment if you're using database
     /* db_username            = google_sql_user.storage.name
