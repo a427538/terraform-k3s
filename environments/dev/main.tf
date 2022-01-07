@@ -57,11 +57,11 @@ module "k3s-master" {
   ssh_keys = jsondecode(var.ssh_keys)
 }
 
-module "routing" {
-  source = "../../modules/routing"
-  subnet  = "${module.vpc.subnet}"
-  next_hop_ip = "${module.k3s-master.internal_ip}"
-}
+# module "routing" {
+#   source = "../../modules/routing"
+#   subnet  = "${module.vpc.subnet}"
+#   next_hop_ip = "${module.k3s-master.internal_ip}"
+# }
 
 resource "google_pubsub_topic" "mig-instance-starting" {
   name = "mig-instance-starting"
