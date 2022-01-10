@@ -16,6 +16,7 @@ data "template_file" "master" {
   template = file("../../environments/${var.env}/scripts/master.sh")
   vars = {
     token                  = random_string.token.result
+    internal_lb_ip_address = google_compute_address.internal_master.address
     external_lb_ip_address = google_compute_address.master.address
     branch                 = "${var.branch}"
     env                    = "${var.env}"
@@ -26,6 +27,13 @@ data "template_file" "master" {
     db_password            = google_sql_user.storage.password
     db_host                = google_sql_database_instance.storage.private_ip_address */
   }
+}
+
+resource "google_compute_address" "internal_master" {
+  name         = "my-internal-address"
+  subnetwork   = google_compute_subnetwork.vpc_subnetwork.id
+  address_type = "INTERNAL"
+  address      = "10.0.0.2"
 }
 
 resource "google_compute_address" "master" {
@@ -51,6 +59,7 @@ resource "google_compute_instance" "master" {
 
   network_interface {
     subnetwork = "${var.subnet}"
+    network_ip = google_compute_address.internal_master.address
     access_config {
       nat_ip = google_compute_address.master.address
     }
