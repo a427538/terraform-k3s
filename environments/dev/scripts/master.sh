@@ -11,14 +11,16 @@ cd terraform-k3s && git checkout "${branch}"
 ansible-playbook \
 --connection=local \
 -i ansible/inventories/"${env}"/hosts \
-ansible/playbooks/squid.yml 
+ansible/playbooks/squid.yml
 
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.22.5+k3s1" sh -s - \
     --write-kubeconfig-mode 644 \
+    --cluster-cidr 10.42.0.0/16 \
 	--token "${token}" \
 	--tls-san "${external_lb_ip_address}" \
+    --tls-san "${server_address}" \
+    --node-label "svccontroller.k3s.cattle.io/enablelb=true"
     --disable traefik
-    # --cluster-cidr 10.42.0.0/16 \
     # --flannel-backend none \
     # --disable-network-policy \      
 	 
@@ -30,3 +32,6 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.22.5+k3s1" sh -s - \
 # sed -i= 's/^[# ]*net.ipv4.ip_forward=[[:digit:]]/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 # 
 # iptables -t nat -A POSTROUTING -o ens4 -j MASQUERADE
+
+
+# alias kube-vip="ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
