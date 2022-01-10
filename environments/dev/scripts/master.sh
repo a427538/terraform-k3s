@@ -19,8 +19,8 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.22.5+k3s1" sh -s - \
 	--token "${token}" \
 	--tls-san "${internal_lb_ip_address}" \
     --tls-san "${external_lb_ip_address}" \
-    --node-label "svccontroller.k3s.cattle.io/enablelb=true"
-    # --disable traefik
+    --node-label "svccontroller.k3s.cattle.io/enablelb=true" \
+    --disable traefik
     # --flannel-backend none \
     # --disable-network-policy \      
 	 
