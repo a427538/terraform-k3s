@@ -32,3 +32,4 @@ variable "ssh_keys" {
 variable "branch" {
   type = string
 }
+variable "internal_lb_ip_address" {}

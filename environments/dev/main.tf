@@ -55,6 +55,7 @@ module "k3s-master" {
   boot_image = "${var.boot_image}"
   disk_size = "${var.disk_size}"
   ssh_keys = jsondecode(var.ssh_keys)
+  internal_lb_ip_address = "${module.k3s-master.internal_ip}"
 }
 
 # module "routing" {
