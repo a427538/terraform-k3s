@@ -31,7 +31,7 @@ data "template_file" "master" {
 
 resource "google_compute_address" "internal_master" {
   name         = "my-internal-address"
-  subnetwork   = google_compute_subnetwork.vpc_subnetwork.id
+  subnetwork = "${var.subnet}"
   address_type = "INTERNAL"
   address      = "10.0.0.2"
 }
