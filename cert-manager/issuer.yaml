@@ -11,10 +11,12 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: vietanhs0817@gmail.com 
+    preferredChain: "DST Root CA X3"  
+    email: cert-manager@mobilelife.de
     privateKeySecretRef:
       name: letsencrypt
     solvers:
       - http01:
           ingress:
-            class: nginx
+            class: traefik
+        selector: {}

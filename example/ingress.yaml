@@ -4,21 +4,22 @@ metadata:
   name: example-ingress
   namespace: example
   annotations:
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: traefik
     cert-manager.io/acme-challenge-type: http01
     cert-manager.io/issue-temporary-certificate: "true"
     cert-manager.io/cluster-issuer: letsencrypt
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/preserve-host: "true"
 spec:
   tls:
     - hosts:
-        - k3s.anhdv.dev
-      secretName: tls.k3s.anhdv.dev
+        - example.mobilelife.de
+      secretName: tls.example.mobilelife.de
   rules:
-    - host: k3s.anhdv.dev
+    - host: example.mobilelife.de
       http:
         paths:
-          - path: /example
+          - path: /
             pathType: Prefix
             backend:
               service:

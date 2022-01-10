@@ -65,7 +65,7 @@ resource "google_compute_firewall" "master" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80", "6443"]
+    ports    = ["6443"]
   }
   target_tags = ["${var.group_name}-${var.env}-master"]
 }
@@ -98,5 +98,5 @@ resource "google_compute_firewall" "ingress" {
     protocol = "tcp"
     ports    = ["80", "443"]
   }
-  target_tags = ["${var.group_name}-${var.env}-worker"]
+  target_tags = ["${var.group_name}-${var.env}-master"]
 }
